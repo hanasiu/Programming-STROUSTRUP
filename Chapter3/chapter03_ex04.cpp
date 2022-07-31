@@ -1,6 +1,10 @@
 #include "std_lib_facilities.h"// header provided by the authour. 
 //https://www.stroustrup.com/Programming/std_lib_facilities.h
 
+#include <iostream>
+
+using namespace std;
+
 int main() {
 	int val1, val2;
 	cin >> val1 >> val2;
