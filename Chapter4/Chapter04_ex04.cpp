@@ -1,33 +1,33 @@
 #include <iostream>
+#include <string>
 
 using namespace std;
 
 int main()
 {
     int num = 50;
-    int diff = 50;
-    int user = 0;
-    cin >> user;
-    int count = 0;
-    while(1)
+    int diff = 25;
+    string answer;
+    cout << "answer: large, small, yes" << endl
+        << "Is the number you are thinking of larger than 50?\n";
+    while (cin >> answer)
     {
-        ++count;
-        if(num==user)
+        if (answer == "large")
         {
-            cout << "the number is " << num << endl
-            << "how many guesses: " << count << endl;
-            break;
+            num += diff;
+            cout << "the number is " << num << "?\n";
+            diff % 2 == 0 ? diff /= 2 : diff = diff / 2 + 1;
         }
-        if(num<user)
+        else if(answer == "small")
         {
-            cout << "Is the number you are thinking of larger than " << num << "?\n";
-            diff>=1?num+=diff:num+=1;
-            diff/=2;
-        } else 
+            num -= diff;
+            cout << "the number is " << num << "?\n";
+            diff % 2 == 0 ? diff /= 2 : diff = diff / 2 + 1;
+        }
+        else if (answer == "yes")
         {
-            cout << "Is the number you are thinking of less than " << num << "?\n";
-            diff>=1?num-=diff:num-=1;
-            diff/=2;
+            cout << "the number is " << num << "?\n";
+            break;
         }
     }
     return 0;
