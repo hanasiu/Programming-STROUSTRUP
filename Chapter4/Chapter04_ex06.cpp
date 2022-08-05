@@ -5,7 +5,7 @@
 using namespace std;
 
 int main() {
-   vector < string > numList = {
+   vector <string> numList = {
       "zero",
       "one",
       "two",
