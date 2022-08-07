@@ -46,6 +46,8 @@ int main()
         {
             modeList.emplace_back(seq[seq.size()-1]);
         }
+    cout << "max count: " << maxcount << endl
+    << "max count list: ";
     for(auto i : modeList)
     {
         cout << i << " ";
