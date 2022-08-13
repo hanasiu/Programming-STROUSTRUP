@@ -1,3 +1,8 @@
+//Chapter05_ex02.cpp
+//Chapter05_ex03.cpp
+//Chapter05_ex04.cpp
+//Chapter05_ex05.cpp
+
 #include <iostream>
 #include <string>
 #include <vector>
