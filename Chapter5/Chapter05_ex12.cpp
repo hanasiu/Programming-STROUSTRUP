@@ -23,7 +23,8 @@ int main() {
             int unique;
             int diff = 0;
             game.emplace_back(randint(9));
-            while(game.size()<4) {
+            constexpr int gameSize = 4;
+            while(game.size()<gameSize) {
                 unique = randint(9);
                 for (int i = 0; i < game.size(); ++i)
                 {
@@ -35,16 +36,16 @@ int main() {
             int num = '?';
             int bullCount = 0, cowCount = 0;
 
-            while (bullCount != 4)
+            while (bullCount != gameSize)
             {
                 bullCount = 0;
                 cowCount = 0;
                 cout << "guess four different integers in the range 0 to 9\n";
-                for (int i = 0; i < 4; ++i)
+                for (int i = 0; i < game.size(); ++i)
                 {
                     cin >> num;
                     if (num < 0 || num>9) error("out of the range: 0 to 9\n");
-                    for (int j = 0; j < 4; ++j)
+                    for (int j = 0; j < game.size(); ++j)
                     {
                         if (num == game[j] && i == j)
                         {
