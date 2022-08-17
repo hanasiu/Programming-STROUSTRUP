@@ -36,7 +36,7 @@ int main() {
             int num = '?';
             int bullCount = 0, cowCount = 0;
 
-            while (bullCount != gameSize)
+            while (bullCount != game.size())
             {
                 bullCount = 0;
                 cowCount = 0;
