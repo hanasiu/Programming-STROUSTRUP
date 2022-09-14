@@ -11,7 +11,7 @@ int main()
     int score = 0;
     vector<string> names = {};
     vector<int> scores = {};
-    while(cin >> name >> score)
+    while(cin >> name >> score && name != "q")
     {
         for(auto i : names)
         {
