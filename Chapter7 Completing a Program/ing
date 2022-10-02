@@ -9,16 +9,21 @@ We have inserted 3 bugs that the compiler will catch and 3 that it won't.
 
 #include "std_lib_facilities.h"
 
+
 const char let = 'L';
 const char con = 'C';
 const char quit = 'q';
 const char print = ';';
 const char number = '8';
 const char name = 'a';
+const char square_root = 's';
+const char power = 'p';
 const string declkey = "let";
 const string constkey = "const";
 const string prompt = "> ";
 const string result = "= ";
+const string sqrtkey = "sqrt";
+const string powkey = "pow";
 
 class Token {
 public:
@@ -66,6 +71,7 @@ Token Token_stream::get()
 	case '%':
 	case ';':
 	case '=':
+	case ',':
 		return Token(ch);
 	case '.':
 	case '0': case '1': case '2': case '3': case '4':
@@ -80,10 +86,12 @@ Token Token_stream::get()
 		if (isalpha(ch)) {
 			string s;
 			s += ch;
-			while (cin.get(ch) && (isalpha(ch) || isdigit(ch))) s += ch;
+			while (cin.get(ch) && (isalpha(ch) || isdigit(ch) || ch=='_')) s += ch;
 			cin.putback(ch);
 			if (s == declkey) return Token(let);
-
+			if (s == constkey) return Token(con);
+			if (s == sqrtkey) return Token(square_root);
+			if (s == powkey) return Token(power);
 			return Token{ name, s };
 		}
 		error("Bad token");
@@ -125,6 +133,7 @@ void set_value(string s, double d)
 {
 	for (auto v : var_table)
 		if (v.name == s) {
+			if (v.var) error(s, " is a constant");
 			v.value = d;
 			return;
 		}
@@ -134,18 +143,56 @@ void set_value(string s, double d)
 bool is_declared(string s)
 {
 	for (auto v : var_table)
-		if (v.name == s) return true;
+		if (v.name == s) {
+			return true;
+		}
 	return false;
+}
+
+bool is_let(string s)
+{
+	for (auto v : var_table)
+	{
+		if (v.name == s && v.var == false) return false;
+		if(v.name == s && v.var == true) return true;
+	}
 }
 
 double define_name(string s, double val, bool var=true)
 {
-	if (is_declared(s)) error(s, "delcared twice");
+	if (is_declared(s)&&!is_let(s))
+	{
+		error(s, " is const. not delcared twice.");
+	}
+	else if (is_declared(s) && is_let(s))
+	{
+		for (auto v : var_table)
+		{
+			if (v.name == s)
+			{
+				v.value = val;
+				return val;
+			}
+		}
+	}
 	var_table.emplace_back(Variable{ s,val,var });
 	return val;
 }
 
 double expression(); // declaration so that primary() can call expression()
+
+double my_pow(double base,int expo)
+{
+	if (expo == 0)
+	{
+		if (base == 0) return 0;
+		return 1;
+	}
+	double res = base;
+	for (int i = 2; i <= expo; ++i)
+		res *= base;
+	return res;
+}
 
 double primary()
 {
@@ -172,7 +219,31 @@ double primary()
 			return get_value(t.name);
 		}
 	}
-
+	case square_root:
+	{
+		t = ts.get();
+		if (t.kind != '(') error("'( expected");
+		double d = expression();
+		if (d < 0) error("Square roots of negative numbers... nope!");
+		t = ts.get();
+		if (t.kind != ')') error("')' expected");
+		return sqrt(d);
+	}
+	case power:
+	{
+		t = ts.get();
+		if (t.kind != '(') error("'(' expected");
+		double d = expression();
+		t = ts.get();
+		if (t.kind != ',') error("',' expected");
+		t = ts.get();
+		if (t.kind != number) error("second argument of 'pow' is not a number.\n Or Sorry. Negative exponents not supported.");
+		int i = int(t.value);
+		if (i != t.value) error("second argument of 'pow' is not an integer");
+		t = ts.get();
+		if (t.kind != ')') error("')' expected");
+		return my_pow(d, i);
+	}
 	case '-':
 		return -primary();
 
@@ -254,9 +325,8 @@ double statement()
 {
 	Token t = ts.get();
 	switch (t.kind) {
-	case let:
-	case con:
-		return declaration(t.kind);
+	case let: return declaration(t);
+	case con: return declaration(t);
 	default:
 		ts.putback(t);
 		return expression();
