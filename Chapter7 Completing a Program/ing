@@ -1,18 +1,75 @@
-//-5%3;
 /*
-calculator08buggy.cpp
+Simple calculator
 
-Helpful comments removed.
+This program implements a basic expression calculator.
+Input from cin; output to cout.
 
-We have inserted 3 bugs that the compiler will catch and 3 that it won't.
+The grammar for input is:
+
+Calculation:
+      Statement
+	  Print
+	  Quit
+	  Help
+	  Calculation Statement
+
+Statement:
+      Declaration
+      Expression
+
+Declaration:
+      "let" Name "=" Expression
+	  "const" Name "=" Expression
+Name:
+      letter
+	  letter Sequence
+Sequence:
+      letter
+	  digit
+	  "_"
+	  letter Sequence
+	  digit Sequence
+	  "_" Sequence
+Print:
+    ;
+	Enter Key
+
+Quit:
+	"quit"
+Help:
+    "help"
+
+Expression:
+    Term
+	Expression + Term
+	Expression - Term
+Term:
+    Primary
+	Term * Primary
+	Term / Primary
+	Term % Primary
+Primary:
+    Number
+	"(" Expression ")"
+	"-" Primary
+	"+" Primary
+	"sqrt(" Expression ")"
+	"pow(" Expression "," Integer ")"
+	Name
+	Name "=" Expression
+Number:
+    floating-point-literal
+
+Input comes from cin through the Token_stream called ts.
 */
 
-#include "std_lib_facilities.h"
 
+#include "std_lib_facilities.h"
 
 const char let = 'L';
 const char con = 'C';
 const char quit = 'q';
+const char help = 'h';
 const char print = ';';
 const char number = '8';
 const char name = 'a';
@@ -24,6 +81,8 @@ const string prompt = "> ";
 const string result = "= ";
 const string sqrtkey = "sqrt";
 const string powkey = "pow";
+const string helpkey = "help";
+const string quitkey = "quit";
 
 class Token {
 public:
@@ -33,7 +92,7 @@ public:
 	Token() : kind{ 0 } { }
 	Token(char ch) :kind(ch) { }
 	Token(char ch, double val) :kind(ch), value(val) { }
-	Token(char ch, string n): kind(ch), name(n) { }
+	Token(char ch, string n) : kind(ch), name(n) { }
 };
 
 class Token_stream {
@@ -60,8 +119,13 @@ Token Token_stream::get()
 {
 	if (full) { full = false; return buffer; }
 	char ch;
-	cin >> ch;
+	cin.get(ch);
+	while (isspace(ch)) {
+		if (ch == '\n') return Token(print);  // if newline detected, return print Token
+		cin.get(ch);
+	}
 	switch (ch) {
+	case print:
 	case '(':
 	case ')':
 	case '+':
@@ -69,29 +133,30 @@ Token Token_stream::get()
 	case '*':
 	case '/':
 	case '%':
-	case ';':
 	case '=':
 	case ',':
 		return Token(ch);
 	case '.':
 	case '0': case '1': case '2': case '3': case '4':
 	case '5': case '6': case '7': case '8': case '9':
-	{	
+	{
 		cin.putback(ch);
-	    double val;
-	    cin >> val;
-	    return Token(number, val);
+		double val;
+		cin >> val;
+		return Token(number, val);
 	}
 	default:
 		if (isalpha(ch)) {
 			string s;
 			s += ch;
-			while (cin.get(ch) && (isalpha(ch) || isdigit(ch) || ch=='_')) s += ch;
+			while (cin.get(ch) && (isalpha(ch) || isdigit(ch) || ch == '_')) s += ch;
 			cin.putback(ch);
 			if (s == declkey) return Token(let);
 			if (s == constkey) return Token(con);
 			if (s == sqrtkey) return Token(square_root);
 			if (s == powkey) return Token(power);
+			if (s == helpkey) return Token(help);
+			if (s == quitkey) return Token(quit);
 			return Token{ name, s };
 		}
 		error("Bad token");
@@ -111,7 +176,6 @@ void Token_stream::ignore(char c)
 		if (ch == c) return;
 }
 
-Token_stream ts;        // provides get() and putback() 
 
 struct Variable {
 	string name;
@@ -120,16 +184,28 @@ struct Variable {
 	Variable(string n, double v, bool va = true) :name(n), value(v), var(va) { }
 };
 
-vector<Variable> var_table;
 
-double get_value(string s)
+
+class Symbol_table {
+public:
+	double get(string s);
+	void set(string s, double d);
+	bool is_declared(string s);
+	bool is_let(string s);
+	double declare(string s, double val, bool var);
+
+private:
+	vector<Variable> var_table;
+};
+
+double Symbol_table::get(string s)
 {
 	for (auto v : var_table)
 		if (v.name == s) return v.value;
 	error("get: undefined name ", s);
 }
 
-void set_value(string s, double d)
+void Symbol_table::set(string s, double d)
 {
 	for (auto v : var_table)
 		if (v.name == s) {
@@ -140,7 +216,7 @@ void set_value(string s, double d)
 	error("set: undefined name ", s);
 }
 
-bool is_declared(string s)
+bool Symbol_table::is_declared(string s)
 {
 	for (auto v : var_table)
 		if (v.name == s) {
@@ -149,18 +225,18 @@ bool is_declared(string s)
 	return false;
 }
 
-bool is_let(string s)
+bool Symbol_table::is_let(string s)
 {
 	for (auto v : var_table)
 	{
 		if (v.name == s && v.var == false) return false;
-		if(v.name == s && v.var == true) return true;
+		if (v.name == s && v.var == true) return true;
 	}
 }
 
-double define_name(string s, double val, bool var=true)
+double Symbol_table::declare(string s, double val, bool var = true)
 {
-	if (is_declared(s)&&!is_let(s))
+	if (is_declared(s) && !is_let(s))
 	{
 		error(s, " is const. not delcared twice.");
 	}
@@ -179,9 +255,11 @@ double define_name(string s, double val, bool var=true)
 	return val;
 }
 
-double expression(); // declaration so that primary() can call expression()
+Token_stream ts;        // provides get() and putback() 
+Symbol_table st;        // provides get(), set(), is_declared() and declare()
+double expression();    // declaration so that primary() can call expression()
 
-double my_pow(double base,int expo)
+double my_pow(double base, int expo)
 {
 	if (expo == 0)
 	{
@@ -199,11 +277,11 @@ double primary()
 	Token t = ts.get();
 	switch (t.kind) {
 	case '(':
-	{	
+	{
 		double d = expression();
-	t = ts.get();
-	if (t.kind != ')') error("')' expected");
-	return d;
+		t = ts.get();
+		if (t.kind != ')') error("')' expected");
+		return d;
 	}
 	case number:
 		return t.value;
@@ -211,12 +289,12 @@ double primary()
 		Token next = ts.get();
 		if (next.kind == '=') {
 			double d = expression();
-			set_value(t.name, d);
+			st.set(t.name, d);
 			return d;
 		}
 		else {
 			ts.putback(next);
-			return get_value(t.name);
+			return st.get(t.name);
 		}
 	}
 	case square_root:
@@ -263,12 +341,12 @@ double term()
 			t = ts.get();
 			break;
 		case '/':
-		{	
+		{
 			double d = primary();
-		if (d == 0) error("divide by zero");
-		left /= d;
-		t = ts.get();
-		break;
+			if (d == 0) error("divide by zero");
+			left /= d;
+			t = ts.get();
+			break;
 		}
 		case '%':
 		{
@@ -301,7 +379,7 @@ double expression()
 			t = ts.get();
 			break;
 		default:
-			ts.putback (t);
+			ts.putback(t);
 			return left;
 		}
 	}
@@ -317,7 +395,7 @@ double declaration(Token k)
 	if (t2.kind != '=') error("= missing in declaration of ", var_name);
 
 	double d = expression();
-	define_name(var_name, d, k.kind==let);
+	st.declare(var_name, d, k.kind == let);
 	return d;
 }
 
@@ -338,6 +416,15 @@ void clean_up_mess()
 	ts.ignore(print);
 }
 
+void print_help()
+{
+	cout << "Instructions: enter expressions, there are\n";
+	cout << "a few functions, you can declare variables using\n";
+	cout << "the 'let' keyword and constants with the 'const'\n";
+	cout << "keyword.\n";
+	cout << "ex)<let three=3;>\n";
+}
+
 
 void calculate()
 {
@@ -345,9 +432,12 @@ void calculate()
 		cout << prompt;
 		Token t = ts.get();
 		while (t.kind == print) t = ts.get();
-		if (t.kind == quit) return;
-		ts.putback(t);
-		cout << result << statement() << endl;
+		if (t.kind == help) print_help();
+		else {
+			if (t.kind == quit) return;
+			ts.putback(t);
+			cout << result << statement() << endl;
+		}
 	}
 	catch (exception& e) {
 		cerr << e.what() << endl;
@@ -358,10 +448,10 @@ void calculate()
 int main()
 try {
 
-	define_name("pi", 3.1415926535, false);	// these pre-defiend names are constants
-	define_name("e", 2.7182818284, false);
-	define_name("k", 1000, false);
-	
+	st.declare("pi", 3.1415926535, false);	// these pre-defiend names are constants
+	st.declare("e", 2.7182818284, false);
+	st.declare("k", 1000, false);
+
 	calculate();
 
 	keep_window_open();
