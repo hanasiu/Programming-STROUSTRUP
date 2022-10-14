@@ -1,7 +1,5 @@
 #include "std_lib_facilities.h"
 
-using namespace std;
-
 void print(string label, const vector<int> vec) {
 	cout << label << " (" << vec.size() << "): {";
 	for (int i = 0; i < vec.size(); ++i) {
