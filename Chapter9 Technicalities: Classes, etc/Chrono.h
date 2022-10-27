@@ -44,16 +44,3 @@ namespace Chrono {
 	//Date next_Sunday(const Date d);
 	//Date next_weekday(const Date& d);
 }
-
-namespace chrono941 {
-	struct Date {
-		int y;
-		int m;
-		int d;
-	};
-
-	void init_day(Date& dd, int y, int m, int d);
-	void add_day(Date& dd, int n);
-
-	ostream& operator<<(ostream& os, const Date& d);
-}
