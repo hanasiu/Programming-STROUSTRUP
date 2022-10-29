@@ -1,0 +1,61 @@
+#pragma once
+#include "std_lib_facilities.h"
+
+class Money {
+public:
+	enum Currency {
+			USD, WON, YEN
+	};
+
+	Money(): cents(0), cur(USD) { }
+	Money(long int c): cents(c), cur(USD) { }
+	Money(int d, int c) : cents(d * 100 + c), cur(USD)
+	{
+		if (c >= 100) error("cents must be between 0 and 99");
+	}
+	Money(long int c, Currency cur): cents(c), cur(cur) { }
+	Money(int d, int c, Currency cur)
+		:cents(d*100+c), cur(cur) { }
+
+	int getDollars() const { return cents / 100; }
+	int getCents() const { return cents % 100; }
+
+private:
+	long int cents;
+	Currency cur;
+};
+
+double exRate(Money::Currency c1, Money::Currency c2)
+{
+	switch (c1) {
+	case Money::USD:
+		switch (c2) {
+		case Money::WON:
+			return 0.0007;
+		case Money::YEN:
+			return 0.0068;
+		default:
+			error("exRate: illegal combination of currencies");
+		}
+	case Money::WON:
+		switch (c2) {
+		case Money::USD:
+			return 1422.0;
+		case Money::YEN:
+			return 9.64;
+		default:
+			error("exRate: illegal combination of currencies");
+		}
+	case Money::YEN:
+		switch (c2) {
+		case Money::USD:
+			return 147.46;
+		case Money::WON:
+			return 0.10;
+		default:
+			error("exRate: illegal combination of currencies");
+		}
+	default:
+		error("exRate: illegal combination of currencies");
+	}
+}
