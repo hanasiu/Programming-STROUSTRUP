@@ -1,3 +1,4 @@
+//WON AND YEN is not accurate 
 #pragma once
 #include "std_lib_facilities.h"
 
