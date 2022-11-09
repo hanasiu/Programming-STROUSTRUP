@@ -11,7 +11,7 @@ try {
     Rational m2toR(1002);
 
     //cout << m1 / m2; // Not working
-    cout << "m1 / m2 is not working" << endl;
+    cout << "m1 / m2 is not supported" << endl;
     cout << "m1toR / m2toR: " << m1toR / m2toR << endl;
 
     double d1 = 10;
