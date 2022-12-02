@@ -7,6 +7,16 @@ struct Point {
 	Point(int xx, int yy): x(xx), y(yy) { }
 };
 
+bool operator==(const Point& p1, const Point& p2)
+{
+	return p1.x == p2.x && p1.y == p2.y;
+}
+
+bool operator!=(const Point& p1, const Point& p2)
+{
+	return !(p1 == p2);
+}
+
 istream& operator>>(istream& is, Point& p)
 {
 	int x, y;
@@ -33,6 +43,34 @@ void print_vector(const vector<Point>& points)
 	}
 }
 
+void write_to_file(const vector<Point>& points, const string& name)
+{
+	ofstream ost(name.c_str());
+	if (!ost) error("can't open output file ", name);
+	for (int i = 0; i < points.size(); ++i) {
+		ost << points[i] << endl;
+	}
+}
+
+void fill_from_file(vector<Point>& points, const string& name)
+{
+	ifstream ist(name.c_str());
+	if (!ist) error("can't open input file, ", name);
+	Point pp;
+	while (ist >> pp) points.emplace_back(pp);
+}
+
+void compare_vectors(const vector<Point>& points1, const vector<Point>& points2)
+{
+	if (points1.size() != points2.size())
+		error("Something's wrong about size!");
+	for (int i = 0; i < points1.size(); ++i) {
+		if (points1[i] != points2[i]) {
+			error("somethin's wrong about value!");
+		}
+	}
+}
+
 int main() 
 try {
 	vector<Point> original_points;
@@ -46,6 +84,18 @@ try {
 	cout << "\nthe data in original points\n";
 	print_vector(original_points);
 
+	string filename = "drill.txt";
+	write_to_file(original_points, filename);
+
+	vector<Point> processed_points;
+	fill_from_file(processed_points, filename);
+
+	cout << "\nData from ifstream:\n";
+	print_vector(processed_points);
+	cout << "\nOriginal data:\n";
+	print_vector(original_points);
+
+	compare_vectors(original_points, processed_points);
 }
 catch (exception& e) {
     cerr << "exception: " << e.what() << endl;
