@@ -16,7 +16,7 @@ const int min_temp = -43;
 
 Reading create_reading()
 {
-    int h = randint(0, 24);
+    int h = randint(0, 23);
     double t = randint(min_temp, max_temp) + randint(-10, 10) / double(10);
     return Reading(h, t);
 }
