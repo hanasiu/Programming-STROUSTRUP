@@ -1,4 +1,3 @@
-//not working
 /*
 This is the integer version!
 Simple calculator
