@@ -1,5 +1,5 @@
 # Programming-STROUSTRUP
-<Programming: Principles and Practice Using C++> by Stroustrup.
+<Programming: Principles and Practice Using C++>(2th Edition) by Stroustrup.
 
 A lot of help from #bewuethr -> https://github.com/bewuethr/stroustrup-ppp
 
