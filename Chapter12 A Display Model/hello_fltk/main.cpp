@@ -30,15 +30,33 @@ void ex02(Simple_window &win)
     win.set_label("Canvas #2-1");
     win.wait_for_button();
 
-    Text t {Point{220,220}, "Howdy!"};
+    Text t{Point{220, 220}, "Howdy!"};
     win.attach(t);
     win.set_label("Canvs #2-2");
     win.wait_for_button();
 }
 
+void ex03(Simple_window &win)
+{
+    Text k{Point{150, 150}, "K"};
+    Text y{Point{280, 150}, "Y"};
+    win.attach(k);
+    win.attach(y);
+    k.set_font(Graph_lib::Font::times_bold);
+    k.set_font_size(150);
+    k.set_color(Color::blue);
+
+    y.set_font(Graph_lib::Font::times_bold);
+    y.set_font_size(150);
+    y.set_color(Color::green);
+
+    win.set_label("Canvs #3");
+    win.wait_for_button();
+}
+
 void ex04(Simple_window &win)
 {
-Rectangle r1{Point{100, 100}, 100, 100};
+    Rectangle r1{Point{100, 100}, 100, 100};
     r1.set_fill_color(Color::white);
     win.attach(r1);
     win.set_label("Canvas #4-1");
@@ -49,19 +67,19 @@ Rectangle r1{Point{100, 100}, 100, 100};
     win.attach(r2);
     win.set_label("Canvas #4-2");
     win.wait_for_button();
-    
+
     Rectangle r3{Point{300, 100}, 100, 100};
     r3.set_fill_color(Color::white);
     win.attach(r3);
     win.set_label("Canvas #4-3");
     win.wait_for_button();
-    
+
     Rectangle r4{Point{100, 200}, 100, 100};
     r4.set_fill_color(Color::red);
     win.attach(r4);
     win.set_label("Canvas #4-4");
     win.wait_for_button();
-    
+
     Rectangle r5{Point{200, 200}, 100, 100};
     r5.set_fill_color(Color::white);
     win.attach(r5);
@@ -93,13 +111,30 @@ Rectangle r1{Point{100, 100}, 100, 100};
     win.wait_for_button();
 }
 
+void ex05(Simple_window &win)
+{
+    // Get the screen DPI
+    float dpi_h, dpi_v;
+    Fl::screen_dpi(dpi_h, dpi_v);
+
+    Rectangle r1{Point{Fl::w() * 1 / 3 / 2, Fl::h() * 1 / 4 / 2},
+                 Fl::w() * 2 / 3, Fl::h() * 3 / 4};
+    r1.set_fill_color(Color::white);
+    r1.set_style(Line_style(Line_style::solid, dpi_h * 1 /4));
+    r1.set_color(Color::red);
+    win.attach(r1);
+    win.set_label("Canvas #4-1");
+    win.wait_for_button();
+};
 
 int main()
 {
-    Point top_left{500, 100}; // will be top left corner of window
-    Simple_window win{top_left, 600, 400, "Canvas"};
+    // Point top_left{500, 100}; // will be top left corner of window
+    // Simple_window win{top_left, 600, 400, "Canvas"};
+    Point top_left{0, 0}; // will be top left corner of window
+    Simple_window win{top_left, Fl::w(), Fl::h(), "Canvas"};
 
-    ex04(win);
+    ex05(win);
 
     return 0;
 }
