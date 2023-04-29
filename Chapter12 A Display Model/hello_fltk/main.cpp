@@ -120,10 +120,146 @@ void ex05(Simple_window &win)
     Rectangle r1{Point{Fl::w() * 1 / 3 / 2, Fl::h() * 1 / 4 / 2},
                  Fl::w() * 2 / 3, Fl::h() * 3 / 4};
     r1.set_fill_color(Color::white);
-    r1.set_style(Line_style(Line_style::solid, dpi_h * 1 /4));
+    r1.set_style(Line_style(Line_style::solid, dpi_h * 1 / 4));
     r1.set_color(Color::red);
     win.attach(r1);
     win.set_label("Canvas #4-1");
+    win.wait_for_button();
+};
+
+void ex07(Simple_window &win)
+{
+    // Get the screen DPI
+    float dpi_h, dpi_v;
+    Fl::screen_dpi(dpi_h, dpi_v);
+
+    Rectangle r1{Point{500, 400},
+                 800, 400};
+    r1.set_fill_color(Color::white);
+    r1.set_style(Line_style(Line_style::solid, dpi_h * 1 / 10));
+    r1.set_color(Color::green);
+    win.attach(r1);
+
+    Polygon roof;
+    roof.add(Point{500, 400});
+    roof.add(Point{1300, 400});
+    roof.add(Point{900, 100});
+    roof.set_style(Line_style(Line_style::solid, dpi_h * 1 / 10));
+    roof.set_fill_color(Color::white);
+    roof.set_color(Color::green);
+    win.attach(roof);
+
+    Polygon chimney;
+    chimney.add(Point{1100, 250});
+    chimney.add(Point{1100, 100});
+    chimney.add(Point{1150, 100});
+    chimney.add(Point{1150, 284});
+    chimney.set_style(Line_style(Line_style::solid, dpi_h * 1 / 10));
+    chimney.set_fill_color(Color::white);
+    chimney.set_color(Color::green);
+    win.attach(chimney);
+
+    Rectangle hole{Point{1100, 100}, 50, 50};
+    hole.set_fill_color(Color::black);
+    hole.set_color(Color::green);
+    hole.set_style(Line_style(Line_style::solid, dpi_h * 1 / 15));
+    win.attach(hole);
+
+    Rectangle door{Point{500, 500},
+                   200, 300};
+    door.set_fill_color(Color::white);
+    door.set_style(Line_style(Line_style::solid, dpi_h * 1 / 10));
+    door.set_color(Color::green);
+    win.attach(door);
+
+    Circle doorKnob{Point{530, 650}, 10};
+    doorKnob.set_color(Color::green);
+    doorKnob.set_style(Line_style(Line_style::solid, dpi_h * 1 / 20));
+    win.attach(doorKnob);
+
+    Rectangle window1{Point{900, 500},
+                      100, 100};
+    window1.set_fill_color(Color::white);
+    window1.set_style(Line_style(Line_style::solid, dpi_h * 1 / 20));
+    window1.set_color(Color::green);
+    win.attach(window1);
+
+    Rectangle window2{Point{1050, 500},
+                      100, 100};
+    window2.set_fill_color(Color::white);
+    window2.set_style(Line_style(Line_style::solid, dpi_h * 1 / 20));
+    window2.set_color(Color::green);
+    win.attach(window2);
+
+    win.set_label("Canvas #4-1");
+    win.wait_for_button();
+};
+
+void ex08(Simple_window &win)
+{
+     // Get the screen DPI
+    float dpi_h, dpi_v;
+    Fl::screen_dpi(dpi_h, dpi_v);
+
+    Rectangle r1{Point{Fl::w() * 1 / 3 / 2, Fl::h() * 1 / 4 / 2},
+                 Fl::w() * 2 / 3, Fl::h() * 3 / 4};
+    r1.set_fill_color(Color::white);
+    r1.set_style(Line_style(Line_style::solid, dpi_h * 1 / 4));
+    r1.set_color(Color::white);
+    win.attach(r1);
+
+
+    Circle circle2{Point{950, 400}, 150};
+    circle2.set_color(Color::black);
+    circle2.set_style(Line_style(Line_style::solid, dpi_h * 1 / 5));
+    win.attach(circle2);
+
+    Circle circle4{Point{775, 550}, 150};
+    circle4.set_color(Color::yellow);
+    circle4.set_style(Line_style(Line_style::solid, dpi_h * 1 / 5));
+    win.attach(circle4);
+
+    Circle circle5{Point{1125, 550}, 150};
+    circle5.set_color(Color::green);
+    circle5.set_style(Line_style(Line_style::solid, dpi_h * 1 / 5));
+    win.attach(circle5);
+
+    Circle circle1{Point{600, 400}, 150};
+    circle1.set_color(Color::blue);
+    circle1.set_style(Line_style(Line_style::solid, dpi_h * 1 / 5));
+    win.attach(circle1);
+    
+    
+    Circle circle3{Point{1300, 400}, 150};
+    circle3.set_color(Color::red);
+    circle3.set_style(Line_style(Line_style::solid, dpi_h * 1 / 5));
+    win.attach(circle3);
+
+    win.set_label("Canvas #4-1");
+    win.wait_for_button();
+};
+
+void ex09(Simple_window &win)
+{
+     // Get the screen DPI
+    float dpi_h, dpi_v;
+    Fl::screen_dpi(dpi_h, dpi_v);
+
+    Rectangle r1{Point{Fl::w() * 1 / 3 / 2, Fl::h() * 1 / 4 / 2},
+                 Fl::w() * 2 / 3, Fl::h() * 3 / 4};
+    r1.set_fill_color(Color::white);
+    r1.set_style(Line_style(Line_style::solid, dpi_h * 1 / 4));
+    r1.set_color(Color::white);
+    win.attach(r1);
+
+    Image cal{Point{500,500}, "rita.jpg"};
+    win.attach(cal);
+
+    win.set_label("Canvas #4-1");
+
+    Text txt{Point{500, 490},"image exercise"};
+    win.attach(txt);
+
     win.wait_for_button();
 };
 
@@ -133,8 +269,8 @@ int main()
     // Simple_window win{top_left, 600, 400, "Canvas"};
     Point top_left{0, 0}; // will be top left corner of window
     Simple_window win{top_left, Fl::w(), Fl::h(), "Canvas"};
-
-    ex05(win);
+    //g++ -w -Wall -std=c++11 Graph.cpp Window.cpp GUI.cpp Simple_window.cpp main.cpp `fltk-config --ldflags --use-images` -o hello_fltk && ./hello_fltk
+    ex09(win);
 
     return 0;
 }
