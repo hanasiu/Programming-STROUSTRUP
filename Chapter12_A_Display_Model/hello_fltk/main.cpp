@@ -1,6 +1,7 @@
 #include "Simple_window.h"
 #include "Graph.h"
 
+
 using namespace Graph_lib; // our graphics facilities are in Graph_lib (defined in Graph.h)
 
 void ex01(Simple_window &win)
@@ -306,6 +307,35 @@ void ex10(Simple_window& win)
     win.wait_for_button();
 }
 
+void ex11(Simple_window& win)
+{
+    Polygon triangle;
+    triangle.add(Point{800,550});
+    triangle.add(Point{850,500});
+    triangle.add(Point{900,600});
+    
+
+    triangle.set_color(Color::red);
+    win.attach(triangle);
+
+    Rectangle rectangle{Point{800,500},100,100};
+    rectangle.set_color(Color::green);
+    win.attach(rectangle);
+
+    Polygon pentagon;
+    pentagon.add(Point{800,600});
+    pentagon.add(Point{900,600});
+    pentagon.add(Point{950,550});
+    pentagon.add(Point{850,450});
+    pentagon.add(Point{750,550});
+    
+    pentagon.set_color(Color::blue);
+    win.attach(pentagon);
+
+    win.wait_for_button();
+}
+
+
 int main()
 {
     // Point top_left{500, 100}; // will be top left corner of window
@@ -313,7 +343,7 @@ int main()
     Point top_left{0, 0}; // will be top left corner of window
     Simple_window win{top_left, Fl::w(), Fl::h(), "Canvas"};
     //g++ -w -Wall -std=c++11 Graph.cpp Window.cpp GUI.cpp Simple_window.cpp main.cpp `fltk-config --ldflags --use-images` -o hello_fltk && ./hello_fltk
-    ex10(win);
+    ex11(win);
 
     return 0;
 }
