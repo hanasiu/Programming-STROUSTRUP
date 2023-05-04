@@ -263,6 +263,49 @@ void ex09(Simple_window &win)
     win.wait_for_button();
 };
 
+// draw the file diagram from §12.8
+void ex10(Simple_window& win)
+{
+    Rectangle fltk1{Point{400,10},120,40};
+    fltk1.set_fill_color(Color::yellow);
+    win.attach(fltk1);
+    Rectangle fltk2{Point{406,16},120,40};
+    fltk2.set_fill_color(Color::yellow);
+    win.attach(fltk2);
+    Rectangle fltk3{Point{412,22},120,40};
+    fltk3.set_fill_color(Color::yellow);
+    win.attach(fltk3);
+    Text fltk_txt{Point{418,42},"FLTK headers"};
+    win.attach(fltk_txt);
+
+    Rectangle win_rect{{389,130},166,80};
+    win_rect.set_fill_color(Color::yellow);
+    win.attach(win_rect);
+    Text win_txt0{{389,127},"Window.h:"};
+    win_txt0.set_font(Graph_lib::Font::helvetica_bold);
+    win.attach(win_txt0);
+    Text win_txt1{{395,150},"// window interface:"};
+    win.attach(win_txt1);
+    Text win_txt2{{395,170},"class Window {...};"};
+    win_txt2.set_font(Graph_lib::Font::helvetica_bold);
+    win.attach(win_txt2);
+    Text win_txt3{Point{395,190},"..."};
+    win.attach(win_txt3);
+
+    Open_polyline win_fltk;
+    win_fltk.add({472,130});
+    win_fltk.add({472,62});
+    win.attach(win_fltk);
+    Polygon win_fltk_arw;
+    win_fltk_arw.add({472,62});
+    win_fltk_arw.add({474,67});
+    win_fltk_arw.add({470,67});
+    win_fltk_arw.set_fill_color(Color::black);
+    win.attach(win_fltk_arw);
+
+    win.wait_for_button();
+}
+
 int main()
 {
     // Point top_left{500, 100}; // will be top left corner of window
@@ -270,7 +313,7 @@ int main()
     Point top_left{0, 0}; // will be top left corner of window
     Simple_window win{top_left, Fl::w(), Fl::h(), "Canvas"};
     //g++ -w -Wall -std=c++11 Graph.cpp Window.cpp GUI.cpp Simple_window.cpp main.cpp `fltk-config --ldflags --use-images` -o hello_fltk && ./hello_fltk
-    ex09(win);
+    ex10(win);
 
     return 0;
 }
