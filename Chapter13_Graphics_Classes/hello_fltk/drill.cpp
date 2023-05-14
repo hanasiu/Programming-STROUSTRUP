@@ -143,12 +143,69 @@ void drill_07(Simple_window &win)
     c2.set_color(Color::blue);
     c3.set_color(Color::green);
 
+    Mark m1{Point{100,200}, 'x'};
+    Mark m2{Point{150,200}, 'y'};
+    Mark m3{Point{200,200}, 'z'};
+
     win.attach(c1);
     win.attach(c2);
     win.attach(c3);
+    win.attach(m1);
+    win.attach(m2);
+    win.attach(m3);
     win.set_label("Canvas #1");
     win.wait_for_button();
 }
+
+void drill_08(Simple_window &win)
+{
+    Ellipse e1{Point{200,200},50,50};
+    Ellipse e2{Point{200,200},100,50};
+    Ellipse e3{Point{200,200},100,150};
+
+    e1.set_color(Color::red);
+    e2.set_color(Color::blue);
+    e3.set_color(Color::green);
+
+    win.attach(e1);
+    win.attach(e2);
+    win.attach(e3);
+    win.set_label("Canvas #1");
+    win.wait_for_button();
+}
+
+void drill_09(Simple_window &win)
+{
+    Marked_polyline mpl{"1234"};
+    mpl.add(Point{100,100});
+    mpl.add(Point{150,200});
+    mpl.add(Point{250,250});
+    mpl.add(Point{300,200});
+
+    win.attach(mpl);
+
+    Marked_polyline mpl2{"5678", {{300,300},{350,400},{450,450},{500,400}}};
+    win.attach(mpl2);
+
+    Marks pp{"x",{{500,500},{550,600},{750,750},{800,700}}};
+    win.attach(pp);
+    win.set_label("Canvas #1");
+    win.wait_for_button();
+}
+
+void drill_10(Simple_window &win)
+{
+    Image rita{Point{0,0}, "rita.jpg"};
+    Image path{Point{0,0}, "rita_path.gif"};
+    path.set_mask(Point{50,250}, 600,400);
+
+    win.attach(path);
+    win.attach(rita);
+    win.set_label("Canvas #1");
+    win.wait_for_button();
+}
+
+
 
 int main()
 {
@@ -156,9 +213,8 @@ int main()
     // Simple_window win{top_left, 600, 400, "Canvas"};
     Point top_left{0, 0}; // will be top left corner of window
     Simple_window win{top_left, Fl::w(), Fl::h(), "Canvas"};
-    // g++ -w -Wall -std=c++11 Graph.cpp Window.cpp GUI.cpp Simple_window.cpp drill.cpp `fltk-config --ldflags --use-images` -o hello_fltk && ./hello_fltk
-
-    drill_07(win);
+    //g++ -w -Wall -std=c++11 Graph.cpp Window.cpp GUI.cpp Simple_window.cpp drill.cpp -I/opt/homebrew/Cellar/fltk/1.3.8_1/include -L/opt/homebrew/Cellar/fltk/1.3.8_1/lib -L/opt/homebrew/opt/libpng/lib -L/opt/homebrew/opt/jpeg-turbo/lib `fltk-config --cxxflags --ldflags --use-images` -o hello_fltk -lpng -lturbojpeg && ./hello_fltk
+    drill_10(win);
     return 0;
 }
 
