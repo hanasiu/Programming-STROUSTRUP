@@ -29,8 +29,6 @@ void drill_01(Simple_window &win)
     win.wait_for_button();
 }
 
-
-
 void drill_02(Simple_window &win)
 {
     Lines x = {
@@ -60,18 +58,15 @@ void drill_03(Simple_window &win)
 void drill_04(Simple_window &win)
 {
     Open_polyline opl = {
-        {100, 100}, {150, 200}, {250, 250}, {300, 200}
-    };
+        {100, 100}, {150, 200}, {250, 250}, {300, 200}};
     win.attach(opl);
 
     Closed_polyline cpl = {
-        {300, 100}, {350, 200}, {450, 250}, {500, 200}
-    };
+        {300, 100}, {350, 200}, {450, 250}, {500, 200}};
     win.attach(cpl);
 
     Polygon poly = {
-        {500, 100}, {550, 200}, {650, 250}, {700, 200}
-    };
+        {500, 100}, {550, 200}, {650, 250}, {700, 200}};
     win.attach(poly);
 
     win.set_label("Canvas #1");
@@ -80,39 +75,16 @@ void drill_04(Simple_window &win)
 
 void drill_05(Simple_window &win)
 {
-    Rectangle rect00{Point{150,100},200,100};
-    Rectangle rect11{Point{50,50}, Point{250,150}};
-    Rectangle rect12{Point{50,150},Point{250,250}};
-    Rectangle rect21{Point{250,50},200,100};
-    Rectangle rect22{Point{250,150},200,100};
-    
-    rect00.set_fill_color(Color::yellow);
-    rect11.set_fill_color(Color::blue);
-    rect12.set_fill_color(Color::red);
-    rect21.set_fill_color(Color::green);
+    // Draw an arc of points
+    fl_begin_points();
+    fl_arc(100.0, 100.0, 50.0, 0.0, 180.0);
+    fl_end_points();
 
-    rect11.move(400,0);
-    rect11.set_fill_color(Color::white);
-
-    rect00.set_color(Color::invisible);
-    rect11.set_color(Color::invisible);
-    rect12.set_color(Color::invisible);
-    rect21.set_color(Color::invisible);
-    rect22.set_color(Color::invisible);
-
-    win.attach(rect00);
-    win.attach(rect11);
-    win.attach(rect12);
-    win.attach(rect21);
-    win.attach(rect22);
-
-    win.put_on_top(rect00);
-
+    //win.attach();
 
     win.set_label("Canvas #1");
     win.wait_for_button();
 }
-
 
 int main()
 {
@@ -120,7 +92,7 @@ int main()
     // Simple_window win{top_left, 600, 400, "Canvas"};
     Point top_left{0, 0}; // will be top left corner of window
     Simple_window win{top_left, Fl::w(), Fl::h(), "Canvas"};
-    // g++ -w -Wall -std=c++11 Graph.cpp Window.cpp GUI.cpp Simple_window.cpp main.cpp `fltk-config --ldflags --use-images` -o hello_fltk && ./hello_fltk
+    // g++ -w -Wall -std=c++11 Graph.cpp Window.cpp GUI.cpp Simple_window.cpp main.cpp -I/opt/homebrew/Cellar/fltk/1.3.8_1/include -L/opt/homebrew/Cellar/fltk/1.3.8_1/lib -L/opt/homebrew/opt/libpng/lib -L/opt/homebrew/opt/jpeg-turbo/lib `fltk-config --cxxflags --ldflags --use-images` -o hello_fltk -lpng -lturbojpeg && ./hello_fltk
 
     drill_05(win);
     return 0;

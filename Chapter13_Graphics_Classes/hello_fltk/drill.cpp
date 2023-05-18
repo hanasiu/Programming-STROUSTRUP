@@ -58,6 +58,7 @@ void drill(Simple_window &win)
     win.set_label("Canvas #1");
     win.wait_for_button();
 }
+
 int main()
 {
     // Point top_left{500, 100}; // will be top left corner of window
