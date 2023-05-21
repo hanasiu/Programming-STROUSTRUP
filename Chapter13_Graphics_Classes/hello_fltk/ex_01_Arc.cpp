@@ -1,7 +1,7 @@
 #include "Simple_window.h"
 #include "Graph.h"
 
-class Arc : public Shape {
+struct Arc : public Shape {
 public:
     Arc(Point center, int radius, double start, double end)
         : Shape(), center(center), radius(radius), start_angle(start), end_angle(end)

@@ -444,7 +444,8 @@ int main()
     double n = 3;
     int N = 20;
 
-    ex12(a,b,m,n,N);
+    //ex12(a,b,m,n,N);
+    ex10(win);
     return 0;
 }
 
