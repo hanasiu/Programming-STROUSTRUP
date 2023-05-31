@@ -38,33 +38,35 @@ void Arrow::draw_lines() const {
     fl_line(head.x, head.y, x2, y2);
 }
 
-void example(Simple_window& win) {
-    Arrow a(Point{ 400, 400 }, Point{ 500, 500 });
-    a.set_color(Color::red);
-    Arrow b(Point{ 400, 400 }, Point{ 300, 300 });
-    b.set_color(Color::green);
-    Arrow c(Point{ 400, 400 }, Point{ 500, 300 });
-    c.set_color(Color::blue);
-    Arrow d(Point{ 400, 400 }, Point{ 300, 500 });
-    d.set_color(Color::yellow);
+//for ex_06
+// void example(Simple_window& win) {
+//     Arrow a(Point{ 400, 400 }, Point{ 500, 500 });
+//     a.set_color(Color::red);
+//     Arrow b(Point{ 400, 400 }, Point{ 300, 300 });
+//     b.set_color(Color::green);
+//     Arrow c(Point{ 400, 400 }, Point{ 500, 300 });
+//     c.set_color(Color::blue);
+//     Arrow d(Point{ 400, 400 }, Point{ 300, 500 });
+//     d.set_color(Color::yellow);
 
-    // Attach the arrow to the window
-    win.attach(a);
-    win.attach(b);
-    win.attach(c);
-    win.attach(d);
+//     // Attach the arrow to the window
+//     win.attach(a);
+//     win.attach(b);
+//     win.attach(c);
+//     win.attach(d);
 
-    win.set_label("Canvas #1");
-    win.wait_for_button();
-}
+//     win.set_label("Canvas #1");
+//     win.wait_for_button();
+// }
 
-int main() {
-    Simple_window win(Point{ 100, 100 }, 800, 600, "My Window");
+//for ex06..
+// int main() {
+//     Simple_window win(Point{ 100, 100 }, 800, 600, "My Window");
 
-    example(win);
+//     example(win);
 
-    return 0;
-}
+//     return 0;
+// }
 
 
 
