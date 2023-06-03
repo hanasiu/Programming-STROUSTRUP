@@ -3,7 +3,7 @@
 
 struct Regular_hexagon : Shape
 {
-    Regular_hexagon (Point xy, int d);
+    Regular_hexagon(Point xy, int d);
     void draw_lines() const;
 
     int distance() const { return d; }
@@ -28,18 +28,17 @@ Regular_hexagon::Regular_hexagon(Point xy, int dd) : d(dd)
 
 void Regular_hexagon::draw_lines() const
 {
-    const int distance = d; 
+    const int distance = d;
 
     if (fill_color().visibility())
     {
         fl_color(fill_color().as_int());
-
     }
 
     if (color().visibility())
     {
-       
-    fl_color(color().as_int());
+
+        fl_color(color().as_int());
         Point p1, p2;
         double angleRad;
 
@@ -60,10 +59,16 @@ void Regular_hexagon::draw_lines() const
 
 void example(Simple_window &win)
 {
-    Regular_hexagon hexagon(Point{300, 300}, 100);
-    hexagon.set_color(Color::yellow);
-
-    win.attach(hexagon);
+    Vector_ref<Regular_hexagon> hexagon_vector;
+    for (int i = 0; i < 10; ++i)
+    {
+        for (int j = 0; j < 10; ++j)
+        {
+            hexagon_vector.push_back(new Regular_hexagon{Point{i * 30 + 100, j * 26 + 100}, 15});
+            hexagon_vector[hexagon_vector.size() - 1].set_color(Color::yellow);
+            win.attach(hexagon_vector[hexagon_vector.size() - 1]);
+        }
+    }
 
     win.set_label("Canvas #1");
     win.wait_for_button();
