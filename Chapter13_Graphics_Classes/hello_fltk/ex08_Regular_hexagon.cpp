@@ -19,13 +19,6 @@ Regular_hexagon::Regular_hexagon(Point xy, int dd) : d(dd)
     add(xy);
 }
 
-// Box::Box(Point x, Point y) : w(y.x - x.x), h(y.y - x.y)
-// {
-//     if (h <= 0 || w <= 0)
-//         throw std::runtime_error("Invalid box size");
-//     add(x);
-// }
-
 void Regular_hexagon::draw_lines() const
 {
     const int distance = d;
