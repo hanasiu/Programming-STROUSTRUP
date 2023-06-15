@@ -87,7 +87,7 @@ void example(Simple_window &win)
 int main()
 {
     // Create a window
-    Simple_window win(Point{100, 100}, 1600, 700, "My Window");
+    Simple_window win(Point{0, 0}, 1600, 700, "My Window");
 
     example(win);
 
