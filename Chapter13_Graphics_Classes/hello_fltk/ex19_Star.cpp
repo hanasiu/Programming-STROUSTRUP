@@ -58,7 +58,7 @@ void Star::draw_lines() const
 
             startAngle += 2 * angle;
         }
-        fl_line_style(FL_SOLID, 2);
+        fl_line_style(FL_SOLID, 5);
         // Draw lines
         for (int i = 0; i < inner_points * 2 - 1; ++i)
         {
