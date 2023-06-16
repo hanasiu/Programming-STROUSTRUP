@@ -43,7 +43,7 @@ void Star::draw_lines() const
         int outer_points = (star_point == FIVE) ? 5 : 6;
 
         double angle = (star_point == FIVE) ? 360.0 / (inner_points + outer_points) : 360.0 / (inner_points * 2);
-        double startAngle = 0;
+        double startAngle = (star_point == FIVE) ? 18:0;
 
         // Calculate inner and outer points alternately
         for (int i = 0; i < inner_points; ++i)
