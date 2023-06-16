@@ -16,7 +16,7 @@ private:
 Regular_hexagon::Regular_hexagon(Point xy, int dd) : d(dd)
 {
     if (d <= 0)
-        throw std::runtime_error("Invalid box size");
+        throw std::runtime_error("Invalid size");
     add(xy);
 }
 
