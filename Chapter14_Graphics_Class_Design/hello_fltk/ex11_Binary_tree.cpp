@@ -149,17 +149,17 @@ void Binary_tree::set_node_label(string n, string lbl)
     istringstream iss(n);
     char ch;
     iss.get(ch);    // look at first character
-    if (n.size()==1) {
+    int n_idx = 0;  // node index in point list
+    if (ch == 'R') {
         switch (ch) {
-        case 'l':
-        case 'r':
-            labels[0].set_label(lbl);
+        case 'R':
+            labels[n_idx].set_label(lbl);
+            n_idx = 1;
             return;
         default:
             error("set_node_label: illegal character in node string: ",string(1,ch));
         }
-    }
-    int n_idx = 0;  // node index in point list
+    } else iss.unget();
     while (iss.get(ch)) {
         switch (ch) {
         case 'l':
@@ -250,12 +250,12 @@ void example(Simple_window &win)
     win.attach(bt3);
     win.wait_for_button();
 
-    bt3.set_node_label("l","Root");
+    bt3.set_node_label("R","Root");
+    bt3.set_node_label("l","l");
     bt3.set_node_label("lr","lr");
     bt3.set_node_label("lrl","lrl");
     bt3.set_node_label("lrlr","lrlr");
     bt3.set_node_label("lrlrl","lrlrl");
-    bt3.set_node_label("lrlrlr","lrlrlr");
     //bt3.set_node_label("","");
     //bt3.set_node_label("x","x");
     //bt3.set_node_label("lrlx","lrlx");
