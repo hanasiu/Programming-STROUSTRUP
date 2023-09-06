@@ -7,6 +7,8 @@ double one(double) { return 1; }
 double slope(double x) { return x / 2; }
 double square(double x) { return x * x; }
 
+double sloping_cos(double x) { return cos(x)+slope(x); }
+
 void drill_01()
 {
     constexpr int xmax = 1200;
@@ -45,6 +47,36 @@ void drill_01()
     y.set_color(Color::red);
     win.attach(x);
     win.attach(y);
+
+    Function s4 { cos, r_min, r_max, orig, 400, x_scale, y_scale};
+    s4.set_color(Color::blue);
+    win.attach(s4);
+    //Function s5 { sloping_cos, r_min, r_max, orig, 400, x_scale, y_scale};
+    Function s5 {static_cast<double(*)(double)>([](double x) { return cos(x) + slope(x); }),
+     r_min, r_max, orig, 400, x_scale, y_scale};
+    s5.set_color(Color::green);
+    win.attach(s5);
+    
+
+    x.label.move(-160,0);
+    x.notches.set_color(Color::dark_red);
+    
+
+
+    Function f1 { log, 0.000001, r_max, orig, 400, x_scale, y_scale};
+    //f1.set_color(Color::violet);
+    win.attach(f1);
+    Function f2 { sin, r_min, r_max, orig, 400, x_scale, y_scale};
+    f2.set_color(Color::blue);
+    win.attach(f2);
+    win.wait_for_button();
+    Function f3 { cos, r_min, r_max, orig, 400, x_scale, y_scale};
+    f3.set_color(Color::yellow);
+    win.attach(f3);
+    Function f4 { exp, r_min, r_max, orig, 400, x_scale, y_scale};
+    f4.set_color(Color::yellow);
+    win.attach(f4);
+    
 
     win.wait_for_button();
 }

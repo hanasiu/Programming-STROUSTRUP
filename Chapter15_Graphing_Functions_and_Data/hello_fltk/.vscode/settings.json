@@ -69,6 +69,7 @@
         "concepts": "cpp",
         "algorithm": "cpp",
         "random": "cpp",
-        "numeric": "cpp"
+        "numeric": "cpp",
+        "filesystem": "cpp"
     }
 }
